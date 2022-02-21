@@ -3,14 +3,6 @@
 # install brew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# install oh-my-zsh
-brew install zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-# oh-my-zsh plugin
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-
 # install some util
 declare -a cask_arr=("iterm2" "visual-studio-code" "insomnia" "slack" "docker" "google-chrome" "firefox" "openvpn-connect" "mongodb-compass")
 for i in "${cask_arr[@]}"
@@ -28,6 +20,14 @@ done
 
 # move .gitconfig
 mv .gitconfig ~/.gitconfig
+
+# install oh-my-zsh
+brew install zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# oh-my-zsh plugin
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
 # set theme
 brew install romkatv/powerlevel10k/powerlevel10k
