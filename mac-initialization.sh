@@ -21,22 +21,41 @@ mv .gitconfig ~/.gitconfig
 
 # install oh-my-zsh
 brew install zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
 brew install starship
 
 # zsh plugin
-brew install zsh-syntax-highlighting
-echo "source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >>${ZDOTDIR:-$HOME}/.zshrc
-brew install zsh-autosuggestions
-echo "source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >>${ZDOTDIR:-$HOME}/.zshrc
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+plugins_to_add=("zsh-syntax-highlighting" "zsh-autosuggestions")
+
+# Path to your .zshrc file
+zshrc_file="$HOME/.zshrc"
+
+# Loop through each plugin and add it to the .zshrc file
+for plugin in "${plugins_to_add[@]}"; do
+    # Check if the plugin is already enabled
+    if grep -q "plugins=.*$plugin" "$zshrc_file"; then
+        echo "Plugin '$plugin' is already enabled."
+    else
+        # Add the plugin to the plugins list
+        sed -i "s/plugins=(/plugins=($plugin /" "$zshrc_file"
+        echo "Plugin '$plugin' added."
+    fi
+done
 
 # pretty ls command
 brew install eza
-echo -e "\nalias ls='eza --icons -F -H --group-directories-first --git -1'" >>${ZDOTDIR:-$HOME}/.zshrc
+echo -e "\nalias ls='eza --icons'" >>${ZDOTDIR:-$HOME}/.zshrc
 echo -e "\nalias ll='ls -alF'" >>${ZDOTDIR:-$HOME}/.zshrc
 
-# reload shell
-source ~/.zshrc
+# set grep to ripgrep
+echo -e "\nalias grep=rg"
 
 # install nvm
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-source ~/.zshrc
+
+# reload shell
+source "$zshrc_file"
