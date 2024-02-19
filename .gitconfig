@@ -263,7 +263,6 @@
     precomposeunicode = true
     quotepath = false
     editor = vim
-	pager = delta
 [diff]
     tool = vimdiff
     wsErrorHighlight = all
