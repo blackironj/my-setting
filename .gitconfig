@@ -1,4 +1,3 @@
-
 [user]
     name = hyunchul jung
     email = blackironj@gmail.com
@@ -264,16 +263,25 @@
     precomposeunicode = true
     quotepath = false
     editor = vim
+	pager = delta
 [diff]
     tool = vimdiff
     wsErrorHighlight = all
+	algorithm = histogram
 [difftool "vimdiff"]
     path = /usr/local/bin/vim
 [merge]
     tool = meld
     trustExitCode = true
+	conflictstyle = zdiff3
 [mergetool "vimdiff"]
     path = /usr/local/bin/vim
     trustExitCode = true
 [init]
 	defaultBranch = main
+[pull]
+	ff = only
+[ebase]
+	autosquash = true
+[branch]
+	sort = -committerdate
