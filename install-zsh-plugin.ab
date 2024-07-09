@@ -1,0 +1,35 @@
+import { exit } from "std"
+
+//backup .zshrc
+let zshrc_file = "$HOME/.zshrc"
+$ cp "{zshrc_file}" "{zshrc_file}-copy" $ failed {
+    echo "failed to copy {zshrc_file}"
+    exit(1)
+}
+
+let oh_my_zsh_custom_path = "$HOME/.oh-my-zsh/custom"
+let zsh_plugin_to_add = ["zsh-syntax-highlighting", "zsh-autosuggestions"]
+loop index, plugin in zsh_plugin_to_add {
+    $ git clone -q https://github.com/zsh-users/{plugin} {oh_my_zsh_custom_path}/plugins/{plugin} $ failed {
+        echo "failed to clone {plugin}"
+        exit(1)
+    }
+    echo "git clone done"
+
+    $ grep -q "plugins=.*{plugin}" "{zshrc_file}" $ failed {
+        echo "failed to grep ExitCode: {status} "
+    }
+    let grep_status = status
+
+    if grep_status == 0 {
+        echo "{plugin} is already enabled"
+    } else {
+        $ sed -i "s/plugins=(/plugins=({plugin} /" "{zshrc_file}" $ failed {
+            echo "failed to sed ExitCode: {status}"
+        }
+        let sed_status = status
+        if sed_status == 0 {
+            echo "{plugin} added"
+        }
+    }
+}
